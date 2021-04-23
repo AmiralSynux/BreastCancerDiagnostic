@@ -8,6 +8,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+*.zip
+*.tar.gz
+
 # Generated files
 .idea/**/contentModel.xml
 
