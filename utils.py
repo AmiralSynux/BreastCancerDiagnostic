@@ -1,7 +1,6 @@
 import copy
 import sys
 from typing import Any
-
 import matplotlib.pyplot as plt
 import numpy as np
 import re
@@ -58,7 +57,7 @@ def print_processed_image(processed_thresh, img):
 class Plotter:
     @staticmethod
     def plotHistogram(*args: Any):
-        plt.hist(args, rwidth=1, align='mid')
+        plt.hist(args, bins=3, rwidth=0.8, align='mid', color='pink')
         plt.show()
 
     @staticmethod

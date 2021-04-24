@@ -1,9 +1,7 @@
 from statistics import mean, stdev
-
 from PIL import Image
 from numpy import array
 from glob import glob
-
 from utils import Plotter
 
 
@@ -58,4 +56,4 @@ def statisticalNormalisation(features):
     return normalisedFeatures
 
 
-resolution_graph()
+histogram_visualization()
