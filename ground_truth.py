@@ -14,8 +14,8 @@ def show_ground_truth(image ,mask):
     plt.show()
     return new_image
 
-img = "input/COMPLETARE/cancer/0045/C_0045_1.RIGHT_MLO.jpg"
-img_mask = "input/COMPLETARE/cancer/0045/C_0045_1.RIGHT_MLO_Mask.jpg"
+img = "input/ddsm/malignant/0045/C_0045_1.RIGHT_MLO.jpg"
+img_mask = "input/ddsm/malignant/0045/C_0045_1.RIGHT_MLO_Mask.jpg"
 
 from PIL import Image
 # Open the image form working directory
