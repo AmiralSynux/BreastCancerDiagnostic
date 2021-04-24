@@ -1,5 +1,7 @@
 import copy
 import sys
+from typing import Any
+
 import matplotlib.pyplot as plt
 import numpy as np
 import re
@@ -44,9 +46,22 @@ def print_binary_image(index):
 
 def print_processed_image(processed_thresh, img):
     processed_img = copy.deepcopy(img)
-    for i in range(1024):
-        for j in range(1024):
+    for i in range(len(img)):
+        for j in range(len(img[0])):
             if processed_thresh[i][j] == 0:
                 processed_img[i][j] = 0
     plt.imshow(processed_img, cmap='bone')
     plt.show()
+    return processed_img
+
+
+class Plotter:
+    @staticmethod
+    def plotHistogram(*args: Any):
+        plt.hist(args, rwidth=1, align='mid')
+        plt.show()
+
+    @staticmethod
+    def plotScatter(x: Any, y: Any):
+        plt.scatter(x, y)
+        plt.show()
