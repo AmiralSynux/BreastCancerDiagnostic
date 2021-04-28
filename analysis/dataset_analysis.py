@@ -33,7 +33,8 @@ def diagnosis_histogram_visualization():
     ddsmBenign, ddsmMalignant = read_ddsm()
     allMammograms = miasMammograms + ddsmBenign + ddsmMalignant
     Plotter.plotHistogram(allMammograms, title="Diagnosis histogram", nrOfbins=3,
-                          colors=['darkgrey', 'black', 'lightgrey'], labels=['Diagnosis', 'Number of cases'])
+                          colors=['darkgrey', 'black', 'lightgrey'], labels=['Diagnosis', 'Number of cases'],
+                          rotation=None)
 
 
 # displays a plot with the resolutions corresponding to mammograms
@@ -66,24 +67,25 @@ def left_right_histogram():
     rightB = ['RIGHT_BENIGN'] * rightB
     rightM = ['RIGHT_MALIGNANT'] * rightM
     mias = read_mias()
-    for index in range(len(mias)-1):
-        thresh = print_binary_image(index+1)
-        sum1, sum2 = compute_pixel_sums(thresh)
-        if sum1 > sum2 and mias[index] == 'NORM':
+    for index in range(len(mias) - 1):
+        if (index + 1) % 2 == 0 and mias[index] == 'NORM':
             leftN.append('LEFT_NORM')
-        elif sum1 <= sum2 and mias[index] == 'NORM':
+        elif (index + 1) % 2 == 1 and mias[index] == 'NORM':
             rightN.append('RIGHT_NORM')
-        elif sum1 > sum2 and mias[index] == 'BENIGN':
+        elif (index + 1) % 2 == 0 and mias[index] == 'BENIGN':
             leftB.append('LEFT_BENIGN')
-        elif sum1 <= sum2 and mias[index] == 'BENIGN':
+        elif (index + 1) % 2 == 1 and mias[index] == 'BENIGN':
             rightB.append('RIGHT_BENIGN')
-        elif sum1 > sum2 and mias[index] == 'MALIGNANT':
+        elif (index + 1) % 2 == 0 and mias[index] == 'MALIGNANT':
             leftM.append('LEFT_MALIGNANT')
-        elif sum1 <= sum2 and mias[index] == 'MALIGNANT':
+        elif (index + 1) % 2 == 1 and mias[index] == 'MALIGNANT':
             rightM.append('RIGHT_MALIGNANT')
     allMammograms = leftM + leftN + leftB + rightM + rightN + rightB
     Plotter.plotHistogram(allMammograms, title="Left and right mammogram diagnosis", nrOfbins=6,
-                          colors=['yellowgreen', 'olivedrab', 'goldenrod', 'gold', 'forestgreen', 'limegreen'], labels=['Left/Right mammogram and diagnosis','Number of cases'])
+                          colors=['yellowgreen', 'olivedrab', 'goldenrod', 'gold', 'forestgreen', 'limegreen'],
+                          labels=['', 'Number of cases'], rotation=10)
 
 
 left_right_histogram()
+diagnosis_histogram_visualization()
+resolution_graph()

@@ -87,11 +87,12 @@ class Plotter:
         plt.show()
 
     @staticmethod
-    def plotHistogram(*args: Any, title, nrOfbins, colors, labels):
+    def plotHistogram(*args: Any, title, nrOfbins, colors, labels, rotation):
         fig, ax = plt.subplots()
         N, bins, patches = ax.hist(args, bins=nrOfbins, edgecolor='white', linewidth=1)
         for i in range(nrOfbins):
             patches[i].set_facecolor(colors[i])
+        plt.xticks(rotation=rotation)
         plt.xlabel(labels[0])
         plt.ylabel(labels[1])
         plt.title(title)
