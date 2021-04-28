@@ -42,7 +42,7 @@ def print_original_image(index):
 
 # returns the binary mammogram from a specified image index, after the process of thresholding
 def print_binary_image(index):
-    img = read_pgm(glob('**/*.pgm', recursive=True)[index])
+    img = read_pgm(glob('../input/mias/*.pgm', recursive=True)[index])
     ret, thresh = cv2.threshold(img, 15, 255, cv2.THRESH_BINARY)
     # plt.imshow(thresh, 'gray')
     # plt.show()
@@ -96,4 +96,5 @@ class Plotter:
         plt.ylabel(labels[1])
         plt.title(title)
         plt.show()
+
 
