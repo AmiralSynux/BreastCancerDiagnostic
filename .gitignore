@@ -7,10 +7,11 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+# Big Files
 *.zip
 *.tar.gz
-
+truth.txt
+truth.zip
 # Generated files
 .idea/**/contentModel.xml
 
