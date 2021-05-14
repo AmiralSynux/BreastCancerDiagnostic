@@ -65,7 +65,8 @@ def processDDSMMammogram(fileName):
     image = np.array(Image.open(fileName))
     ret, thresh = cv2.threshold(image, 15, 255, cv2.THRESH_BINARY)
     processed_thresh = remove_labels(thresh)
-    print_processed_image(processed_thresh, image)
+    # print_processed_image(processed_thresh, image)
+    return processed_thresh
 
 
 def get_processed_image(processed_thresh, img):

@@ -1,13 +1,15 @@
 from PIL import Image
 from numpy import array
 from glob import glob
-from utils import Plotter
 
 
 # a function that reads the ground truth for the mias db(NORM,MALIGNANT,BENIGN)
+from utils.utils import Plotter
+
+
 def read_mias():
     mammograms = []
-    with open("../input/mias/groundTruth.txt", "r") as reader:
+    with open("input/mias/groundTruth.txt", "r") as reader:
         for line in reader.readlines():
             line = line.split()
             mammograms.append(line[1])
