@@ -97,6 +97,8 @@ def read_threaded(imageDTOs, start, end):
 
 
 def read_scattered_data(n=382, nr_t=-1):
+    if n > 382:
+        n = 382
     if nr_t == -1:
         nr_t = n // 15
     threads = []
@@ -123,7 +125,7 @@ def read_scattered_data(n=382, nr_t=-1):
     return result
 
 
-def read_data(n):
+def read_data(n=382):
     imageDTOs = []
     with open("input/truth.txt", "r") as reader:
         length = int(reader.readline())
