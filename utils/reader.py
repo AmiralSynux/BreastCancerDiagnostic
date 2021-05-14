@@ -10,8 +10,8 @@ from utils.utils import read_pgm, get_processed_image, processDDSMMammogram
 
 
 def read_ddsm_data(imgs):
-    benign = glob('input/ddsm/benign/**/*MLO.jpg', recursive=True)[:10]
-    malignant = glob('input/ddsm/malignant/**/*MLO.jpg', recursive=True)[:10]
+    benign = glob('input/ddsm/benign/**/*MLO.jpg', recursive=True)
+    malignant = glob('input/ddsm/malignant/**/*MLO.jpg', recursive=True)
     for path in benign:
         imgs.append(ImageDTO(processDDSMMammogram(path), "BENING"))
     print("---------    benign finished    ---------")
@@ -23,7 +23,7 @@ def read_ddsm_data(imgs):
 def read_mias_data(imageDTOs):
     mias_gt = read_mias()
     i = 0
-    for img in glob('input/mias/*.pgm', recursive=True)[:10]:
+    for img in glob('input/mias/*.pgm', recursive=True):
         img = read_pgm(img)
         ret, thresh = cv2.threshold(img, 15, 255, cv2.THRESH_BINARY)
         processed_thresh = remove_labels(thresh)
@@ -47,8 +47,8 @@ def write_data(images):
             writer.write(imageDTO.truth + "\n")
     k = 0
     for imageDTO in images:
-        name = "mamo" + str(k)
-        with open("input/mamos/" + name, "w") as writer:
+        name = "mammo" + str(k)
+        with open("input/mammos/" + name, "w") as writer:
             matrix = imageDTO.matrix
             writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
             for i in range(len(matrix)):
@@ -73,10 +73,62 @@ def read_data_img():
     return imageDTOs
 
 
-def read_data():
+def read_threaded(imageDTOs, start, end):
+    print("#Start - " + str(start) + " " + str(end))
+    for i in range(start, end):
+        path = "input/mammos/mammo" + str(i)
+        with open(path, "r") as reader:
+            n = reader.readline()
+            n = n.split(",")
+            m = int(n[1])
+            n = int(n[0])
+            matrix = []
+            for line in range(n):
+                matrix_line = []
+                line = reader.readline()
+                line = line.split(",")
+                for j in range(m):
+                    matrix_line.append(int(line[j]))
+                matrix.append(matrix_line)
+            truth = reader.readline()
+            truth = truth[:-1]
+            imageDTOs.append(ImageDTO(matrix, truth))
+    print("#END - " + str(start) + " " + str(end))
+
+
+def read_scattered_data(n=382, nr_t=-1):
+    if nr_t == -1:
+        nr_t = n // 15
+    threads = []
+    rez = []
+    count = n // nr_t
+    for i in range(nr_t):
+        r = []
+        t = threading.Thread(target=read_threaded, args=(r, i * count, i * count + count))
+        rez.append(r)
+        t.start()
+        threads.append(t)
+    if n % nr_t != 0:
+        r = []
+        t = threading.Thread(target=read_threaded, args=(r, n - (n % nr_t), n))
+        rez.append(r)
+        t.start()
+        t.join()
+    for thread in threads:
+        thread.join()
+    result = []
+    for r in rez:
+        result += r
+    print("READING FINISHED")
+    return result
+
+
+def read_data(n):
     imageDTOs = []
     with open("input/truth.txt", "r") as reader:
         length = int(reader.readline())
+        if n < length:
+            length = n
         for _ in range(length):
             n = reader.readline()
             n = n.split(",")
@@ -93,5 +145,6 @@ def read_data():
             truth = reader.readline()
             truth = truth[:-1]
             imageDTOs.append(ImageDTO(matrix, truth))
-            print(len(imageDTOs))
+            print("#"+str(len(imageDTOs)))
+    print("READING FINISHED")
     return imageDTOs
