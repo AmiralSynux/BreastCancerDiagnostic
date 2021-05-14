@@ -63,6 +63,7 @@ def processMiasMammogram(index):
 
 def processDDSMMammogram(fileName):
     image = np.array(Image.open(fileName))
+    image = cv2.resize(image, (512, 512))
     ret, thresh = cv2.threshold(image, 15, 255, cv2.THRESH_BINARY)
     processed_thresh = remove_labels(thresh)
     # print_processed_image(processed_thresh, image)

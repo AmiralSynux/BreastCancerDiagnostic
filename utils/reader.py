@@ -13,25 +13,43 @@ def read_ddsm_data(imgs):
     benign = glob('input/ddsm/benign/**/*MLO.jpg', recursive=True)
     malignant = glob('input/ddsm/malignant/**/*MLO.jpg', recursive=True)
     for path in benign:
-        imgs.append(ImageDTO(processDDSMMammogram(path), "BENING"))
+        imgs.append(ImageDTO(processDDSMMammogram(path), "BENIGN"))
     print("---------    benign finished    ---------")
     for path in malignant:
         imgs.append(ImageDTO(processDDSMMammogram(path), "MALIGNANT"))
     print("---------    malignant finished    ---------")
 
 
+def read_one_image(res, path, i,mias_gt):
+    img = read_pgm(path)
+    img = cv2.resize(img, (512, 512))
+    ret, thresh = cv2.threshold(img, 15, 255, cv2.THRESH_BINARY)
+    processed_thresh = remove_labels(thresh)
+    processed_img = get_processed_image(processed_thresh, img)
+    imageDTO = ImageDTO(processed_img, mias_gt[i])
+    res.append(imageDTO)
+    print("#" + str(i))
+
+
 def read_mias_data(imageDTOs):
     mias_gt = read_mias()
     i = 0
+    res = []
+    threads = []
     for img in glob('input/mias/*.pgm', recursive=True):
-        img = read_pgm(img)
-        ret, thresh = cv2.threshold(img, 15, 255, cv2.THRESH_BINARY)
-        processed_thresh = remove_labels(thresh)
-        processed_img = get_processed_image(processed_thresh, img)
-        imageDTO = ImageDTO(processed_img, mias_gt[i])
-        imageDTOs.append(imageDTO)
-        print("#" + str(i))
+        r = []
+        t = threading.Thread(target=read_one_image, args=(r,img,i,mias_gt,))
+        res.append(r)
+        t.start()
+        threads.append(t)
         i += 1
+    for thread in threads:
+        thread.join()
+    result = []
+    for r in res:
+        result+=r
+    for r in result:
+        imageDTOs.append(r)
 
 
 def write_data(images):
@@ -45,18 +63,18 @@ def write_data(images):
                     writer.write(str(matrix[i][j]) + ",")
                 writer.write("\n")
             writer.write(imageDTO.truth + "\n")
-    k = 0
-    for imageDTO in images:
-        name = "mammo" + str(k)
-        with open("input/mammos/" + name, "w") as writer:
-            matrix = imageDTO.matrix
-            writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
-            for i in range(len(matrix)):
-                for j in range(len(matrix[0])):
-                    writer.write(str(matrix[i][j]) + ",")
-                writer.write("\n")
-            writer.write(imageDTO.truth + "\n")
-        k += 1
+    # k = 0
+    # for imageDTO in images:
+    #     name = "mammo" + str(k)
+    #     with open("input/mammos/" + name, "w") as writer:
+    #         matrix = imageDTO.matrix
+    #         writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
+    #         for i in range(len(matrix)):
+    #             for j in range(len(matrix[0])):
+    #                 writer.write(str(matrix[i][j]) + ",")
+    #             writer.write("\n")
+    #         writer.write(imageDTO.truth + "\n")
+    #     k += 1
 
 
 def read_data_img():
