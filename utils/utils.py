@@ -7,9 +7,7 @@ import re
 from glob import glob
 import cv2
 from PIL import Image
-
 from preprocessing.process import remove_labels
-
 np.set_printoptions(threshold=sys.maxsize)
 
 
@@ -44,21 +42,16 @@ def print_original_image(index):
 def print_binary_image(index):
     img = read_pgm(glob('../input/mias/*.pgm', recursive=True)[index])
     ret, thresh = cv2.threshold(img, 15, 255, cv2.THRESH_BINARY)
-    # plt.imshow(thresh, 'gray')
-    # plt.show()
+    plt.imshow(thresh, 'gray')
+    plt.show()
     return thresh
 
 
 # returns the processed mammogram (without any labels or artifacts) given the original and the thresh image
 def print_processed_image(processed_thresh, img):
-    processed_img = copy.deepcopy(img)
-    for i in range(len(img)):
-        for j in range(len(img[0])):
-            if processed_thresh[i][j] == 0:
-                processed_img[i][j] = 0
+    processed_img = get_processed_image(processed_thresh, img)
     plt.imshow(processed_img, cmap='bone')
     plt.show()
-    return processed_img
 
 
 def processMiasMammogram(index):
@@ -73,6 +66,15 @@ def processDDSMMammogram(fileName):
     ret, thresh = cv2.threshold(image, 15, 255, cv2.THRESH_BINARY)
     processed_thresh = remove_labels(thresh)
     print_processed_image(processed_thresh, image)
+
+
+def get_processed_image(processed_thresh, img):
+    processed_img = copy.deepcopy(img)
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            if processed_thresh[i][j] == 0:
+                processed_img[i][j] = 0
+    return processed_img
 
 
 class Plotter:
@@ -97,5 +99,3 @@ class Plotter:
         plt.ylabel(labels[1])
         plt.title(title)
         plt.show()
-
-

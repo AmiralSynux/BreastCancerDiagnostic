@@ -1,16 +1,13 @@
 from PIL import Image
 from numpy import array
 from glob import glob
-
-from preprocessing.process import compute_pixel_sums
-from utils.utils import Plotter, print_binary_image
-from input import *
+from utils import Plotter
 
 
 # a function that reads the ground truth for the mias db(NORM,MALIGNANT,BENIGN)
 def read_mias():
     mammograms = []
-    with open("input/mias/groundTruth.txt", "r") as reader:
+    with open("../input/mias/groundTruth.txt", "r") as reader:
         for line in reader.readlines():
             line = line.split()
             mammograms.append(line[1])
@@ -84,4 +81,3 @@ def left_right_histogram():
     Plotter.plotHistogram(allMammograms, title="Left and right mammogram diagnosis", nrOfbins=6,
                           colors=['yellowgreen', 'olivedrab', 'goldenrod', 'gold', 'forestgreen', 'limegreen'],
                           labels=['', 'Number of cases'], rotation=10)
-
