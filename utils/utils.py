@@ -8,6 +8,7 @@ from glob import glob
 import cv2
 from PIL import Image
 from preprocessing.process import remove_labels
+
 np.set_printoptions(threshold=sys.maxsize)
 
 
@@ -61,9 +62,10 @@ def processMiasMammogram(index):
     print_processed_image(processed_thresh, img)
 
 
-def processDDSMMammogram(fileName):
+def processDDSMMammogram(fileName, resize=-1):
     image = np.array(Image.open(fileName))
-    image = cv2.resize(image, (512, 512))
+    if resize != -1:
+        image = cv2.resize(image, (resize, resize))
     ret, thresh = cv2.threshold(image, 15, 255, cv2.THRESH_BINARY)
     processed_thresh = remove_labels(thresh)
     # print_processed_image(processed_thresh, image)
