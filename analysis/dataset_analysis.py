@@ -1,12 +1,10 @@
 from PIL import Image
 from numpy import array
 from glob import glob
-
-
-# a function that reads the ground truth for the mias db(NORM,MALIGNANT,BENIGN)
 from utils.utils import Plotter
 
 
+# a function that reads the ground truth for the mias db(NORM,MALIGNANT,BENIGN)
 def read_mias():
     mammograms = []
     with open("input/mias/groundTruth.txt", "r") as reader:
@@ -32,7 +30,7 @@ def diagnosis_histogram_visualization():
     ddsmBenign, ddsmMalignant = read_ddsm()
     allMammograms = miasMammograms + ddsmBenign + ddsmMalignant
     Plotter.plotHistogram(allMammograms, title="Diagnosis histogram", nrOfbins=3,
-                          colors=['darkgrey', 'black', 'lightgrey'], labels=['Diagnosis', 'Number of cases'],
+                          colors=['darkblue', 'blue', 'lightblue'], labels=['Diagnosis', 'Number of cases'],
                           rotation=None)
 
 
@@ -55,6 +53,8 @@ def resolution_graph():
     Plotter.plotPlot(xMias, yMias, xDdsm, yDdsm, title="Resolution plot")
 
 
+# displays a plot with mammograms classified by type of diagnosis(NORM,MALIGNANT,BENIGN)
+# and the side of the chest that has been X-rayed(right,left)
 def left_right_histogram():
     leftM, leftN, leftB, rightM, rightN, rightB = [], [], [], [], [], []
     leftB = len(glob('input/ddsm/benign/**/*LEFT_MLO_Mask.jpg', recursive=True))
@@ -81,5 +81,5 @@ def left_right_histogram():
             rightM.append('RIGHT_MALIGNANT')
     allMammograms = leftM + leftN + leftB + rightM + rightN + rightB
     Plotter.plotHistogram(allMammograms, title="Left and right mammogram diagnosis", nrOfbins=6,
-                          colors=['yellowgreen', 'olivedrab', 'goldenrod', 'gold', 'forestgreen', 'limegreen'],
+                          colors=['yellow', 'darkorange', 'goldenrod', 'gold', 'orangered','orange'],
                           labels=['', 'Number of cases'], rotation=10)

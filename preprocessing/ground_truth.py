@@ -1,3 +1,6 @@
+import sys
+from glob import glob
+
 import matplotlib.pyplot as plt
 
 
@@ -13,3 +16,24 @@ def show_ground_truth(image, mask):
     plt.imshow(new_image, 'gray')
     plt.show()
     return new_image
+
+
+def get_center(image):
+    xmin = sys.maxsize
+    xmax = -sys.maxsize
+    ymin = sys.maxsize
+    ymax = -sys.maxsize
+    for i in range(len(image)):
+        for j in range(len(image[0])):
+            if image[i][j] == 255:
+                if j < xmin:
+                    xmin = j
+                if j > xmax:
+                    xmax = j
+                if i > ymax:
+                    ymax = i
+                if i < ymin:
+                    ymin = i
+    avgx = (xmax + xmin) // 2
+    avgy = (ymax + ymin) // 2
+    return avgx, avgy

@@ -1,9 +1,7 @@
 import threading
 from glob import glob
-
 import cv2
 from chronometer import Chronometer
-
 from analysis.dataset_analysis import read_mias
 from preprocessing.process import remove_labels
 from utils.domain import ImageDTO
@@ -11,8 +9,8 @@ from utils.utils import read_pgm, get_processed_image, processDDSMMammogram
 
 
 def read_ddsm_data(imgs, resize=-1):
-    benign = glob('input/ddsm/benign/**/*MLO.jpg', recursive=True)
-    malignant = glob('input/ddsm/malignant/**/*MLO.jpg', recursive=True)
+    benign = glob('new/benign/**/*MLO.jpg', recursive=True)
+    malignant = glob('new/malignant/**/*MLO.jpg', recursive=True)
     for path in benign:
         imgs.append(ImageDTO(processDDSMMammogram(path, resize), "BENIGN"))
     print("---------###    BENIGN Finished    ###---------")
@@ -70,22 +68,10 @@ def read_mias_data(imageDTOs, resize=-1):
 
 
 def write_data(images):
-    print("Writing...")
-    with open("input/truth.txt", "w") as writer:
-        writer.write(str(len(images)) + "\n")
-        for imageDTO in images:
-            matrix = imageDTO.matrix
-            writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
-            for i in range(len(matrix)):
-                for j in range(len(matrix[0])):
-                    writer.write(str(matrix[i][j]) + ",")
-                writer.write("\n")
-            writer.write(imageDTO.truth + "\n")
-    print("-- Writing finished --")
-    # k = 0
-    # for imageDTO in images:
-    #     name = "mammo" + str(k)
-    #     with open("input/mammos/" + name, "w") as writer:
+    # print("Writing...")
+    # with open("input/truth.txt", "w") as writer:
+    #     writer.write(str(len(images)) + "\n")
+    #     for imageDTO in images:
     #         matrix = imageDTO.matrix
     #         writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
     #         for i in range(len(matrix)):
@@ -93,7 +79,20 @@ def write_data(images):
     #                 writer.write(str(matrix[i][j]) + ",")
     #             writer.write("\n")
     #         writer.write(imageDTO.truth + "\n")
-    #     k += 1
+    #
+    k = 382
+    for imageDTO in images:
+        name = "mammo" + str(k)+".txt"
+        with open("input/mammos/" + name, "w") as writer:
+            matrix = imageDTO.matrix
+            writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    writer.write(str(matrix[i][j]) + ",")
+                writer.write("\n")
+            writer.write(imageDTO.truth + "\n")
+        k +=1
+    print("-- Writing finished --")
 
 
 # Reads mias & ddsm and if the resize parameter is given, the read images are resized
@@ -102,11 +101,11 @@ def read_data_img(resize=-1):
     with Chronometer() as cr:
         mias = []
         ddsm = []
-        t = threading.Thread(target=read_mias_data, args=(mias, resize,))
+        # t = threading.Thread(target=read_mias_data, args=(mias, resize,))
         t2 = threading.Thread(target=read_ddsm_data, args=(ddsm, resize,))
         t2.start()
-        t.start()
-        t.join()
+        # t.start()
+        # t.join()
         t2.join()
         imageDTOs = mias + ddsm
     print('Reading done..\nElapsed time: {:.3f} seconds\nTotal length: {}'.format(float(cr), len(imageDTOs)))
