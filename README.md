@@ -107,7 +107,7 @@ we added a "deep" to the algorithm in order to bypass the problem. This deep ind
 <h4>Cleared image</h4>
 <img src="images/cleared.jpg" alt="Cleared image"/>
 
-<h4>Jaccard score</h4>
+<h4>Performance of the algorithm</h4>
 In order to see the performance of our algorithm we generated the images with the tumors for all the DDSM malignant
 and benign mammograms, and we compared them with their mask. As the mask was only represented by the border of the 
 malformation we colored with white the inside of the contour.
@@ -115,4 +115,9 @@ malformation we colored with white the inside of the contour.
 <h4>Normal mask</h4>
 <img src="images/C_0279_1.RIGHT_MLO_Mask.jpg" alt="Normal mask" width="300px" height="500px"/>
 <h4>After colouring</h4>
-<img src="images/alb.jpg" alt="Coloured mask"/>
+<img src="images/alb.jpg" alt="Coloured mask" width="300px" height="500px"/>
+
+Then we calculated the Jaccard Similarity (coefficient), that measures similarities between sets, for each image
+and its mask. This performance metric is defined as the size of the intersection divided by the size of the union of the two sets.
+We calculated an average coefficient by adding all the Jaccard scores and the dividing them by the number of samples. For this
+we obtained an average score of: 0.93.

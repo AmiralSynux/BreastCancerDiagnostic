@@ -1,28 +1,28 @@
 import sys
-
+from glob import glob
 import cv2
 import numpy as np
-
+from sklearn.metrics import jaccard_score
 from detect_cancer import get_image_after_segmentation
 from solver_classification import classifyMammograms
 from utils.reader import read_scattered_data
 
 np.set_printoptions(threshold=sys.maxsize)
 
-
 # left_right_histogram()
 # diagnosis_histogram_visualization()
 # resolution_graph()
 # read_data_img()
 
-classifyMammograms()
+# classifyMammograms()
+
 
 def detect_tumors():
     images = read_scattered_data()
     print(len(images))
     for i in range(len(images)):
         img = get_image_after_segmentation(images[i].matrix)
-        cv2.imwrite("tumors/tumor"+str(i)+".jpg", img)
+        cv2.imwrite("tumors/tumor" + str(i) + ".jpg", img)
 
 
 def make_tumor_mask_white(matrix):
@@ -34,10 +34,18 @@ def make_tumor_mask_white(matrix):
                 break
 
 
-#detect_tumors()
-# img1 = cv2.imread("first.jpg").flatten().tolist()
-# img2 = cv2.imread("input/ddsm/benign/0279/C_0279_1.RIGHT_MLO_Mask.jpg")
-# ret, thresh = cv2.threshold(img2, 15, 255, cv2.THRESH_BINARY)
-# famalab(thresh)
-# thresh = thresh.flatten().tolist()
-# print(jaccard_score(thresh, img1, average='micro'))
+def calculate_jaccard():
+    masks = glob('input/ddsm/**/*_Mask.jpg', recursive=True)
+    sum_jac = 0
+    for i in range(30):
+        print(i)
+        img1 = cv2.imread("tumors/tumor"+str(i)+".jpg").flatten().tolist()
+        img2 = cv2.imread(masks[i])
+        ret, thresh = cv2.threshold(img2, 15, 255, cv2.THRESH_BINARY)
+        make_tumor_mask_white(thresh)
+        thresh = thresh.flatten().tolist()
+        sum_jac += jaccard_score(thresh, img1, average='micro')
+    return sum_jac / 30
+
+
+print(calculate_jaccard())
