@@ -56,7 +56,7 @@ it checks each pixel: if in the binary image a pixel is black it should also be 
 <h4>Original image</h4>
 <img src="images/org_img.png" alt="Original image"/>
 <h4>Binary image</h4>
-<img src="images/binary_img.png" alt="Binary image"/>
+<img src="images/binaryimg.png" alt="Binary image"/>
 <h4>Binary image after removing the unnecessary data</h4>
 <img src="images/rem_bina.png" alt="Binary image after removing the unnecessary data"/>
 <h4>Final mammogram</h4>
