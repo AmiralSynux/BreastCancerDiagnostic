@@ -94,7 +94,9 @@ neighbor and thus developing clusters of data points. It starts by setting K cen
 randomly or in the light of some heuristic. After all the pixels remain in a cluster membership, the image
 is segmented into these clusters. After that, a threshold is applied in order to accentuate the tumor
 (the brightest part of the mammogram). As the pectoral muscle is also a very bright part of the image
-we used an algorithm to clean the borders of the image.
+we used an algorithm to clean the borders of the image. For clearing the binary image (the one obtained by thresholding), 
+we used a flood-fill based algorithm. Because the white borders had black lines between them, 
+we added a "deep" to the algorithm in order to bypass the problem. This deep indicates how much further should it check for white pixels. The optimal deep found was 3.
 
 <h4>Original image</h4>
 <img src="images/C_0279_1.RIGHT_MLO.jpg" alt="Original image"/>
@@ -104,3 +106,13 @@ we used an algorithm to clean the borders of the image.
 <img src="images/thresh.jpg" alt="Binary image"/>
 <h4>Cleared image</h4>
 <img src="images/cleared.jpg" alt="Cleared image"/>
+
+<h4>Jaccard score</h4>
+In order to see the performance of our algorithm we generated the images with the tumors for all the DDSM malignant
+and benign mammograms, and we compared them with their mask. As the mask was only represented by the border of the 
+malformation we colored with white the inside of the contour.
+
+<h4>Normal mask</h4>
+<img src="images/C_0279_1.RIGHT_MLO_Mask.jpg" alt="Normal mask" style="width: 300; height: 500;"/>
+<h4>After colouring</h4>
+<img src="images/alb.jpg" alt="Coloured mask" style="width: 300; height: 500;"/>
