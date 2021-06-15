@@ -52,7 +52,7 @@ Thereafter, it computes the pixel sum for both groups and compares these to chec
 to decide the starting point of the pointer. After finding the starting point it traverses the pointer in every
 row and removes the unnecessary data in the image, i.e., labels and scanning artifacts.After removing the unnecessary data,
 it checks each pixel: if in the binary image a pixel is black it should also be black in the original mammogram image.
-<div style="align-items: center">
+<div style="text-align: center">
 <h4>Original image</h4>
 <img src="images/org_img.png" alt="Original image"/>
 <h4>Binary image</h4>
