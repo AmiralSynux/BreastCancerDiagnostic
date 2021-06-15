@@ -99,13 +99,13 @@ we used a flood-fill based algorithm. Because the white borders had black lines 
 we added a "deep" to the algorithm in order to bypass the problem. This deep indicates how much further should it check for white pixels. The optimal deep found was 3.
 
 <h4>Original image</h4>
-<img src="images/C_0279_1.RIGHT_MLO.jpg" alt="Original image"/>
+<img src="images/C_0279_1.RIGHT_MLO.jpg" alt="Original image" width="300px" height="500px"/>
 <h4>Segmented image using k-means</h4>
-<img src="images/seg.jpg" alt="Segmented image"/>
+<img src="images/seg.jpg" alt="Segmented image" width="300px" height="500px"/>
 <h4>Binary image</h4>
-<img src="images/thresh.jpg" alt="Binary image"/>
+<img src="images/thresh.jpg" alt="Binary image" width="300px" height="500px"/>
 <h4>Cleared image</h4>
-<img src="images/cleared.jpg" alt="Cleared image"/>
+<img src="images/cleared.jpg" alt="Cleared image" width="300px" height="500px"/>
 
 <h4>Performance of the algorithm</h4>
 In order to see the performance of our algorithm we generated the images with the tumors for all the DDSM malignant
