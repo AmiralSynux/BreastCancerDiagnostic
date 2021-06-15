@@ -50,9 +50,9 @@ thresholding algorithm. First, it takes a mammogram image and applies a threshol
 using the threshold value T=15. Then it divides the image vertically in half, as to attain two groups.
 Thereafter, it computes the pixel sum for both groups and compares these to check which one is greater in order 
 to decide the starting point of the pointer. After finding the starting point it traverses the pointer in every
-row and removes the unnecessary data in the image, i.e., labels and scanning artifacts.After removing the unnecessary data,
+row and removes the unnecessary data in the image, i.e., labels and scanning artifacts. After removing the unnecessary data,
 it checks each pixel: if in the binary image a pixel is black it should also be black in the original mammogram image.
-<div style="justify-content: center">
+<div style="margin: 0 auto">
 <h4>Original image</h4>
 <img src="images/org_img.png" alt="Original image"/>
 <h4>Binary image</h4>
@@ -62,5 +62,6 @@ it checks each pixel: if in the binary image a pixel is black it should also be 
 <h4>Final mammogram</h4>
 <img src="images/final_img.png" alt="Final mammogram"/>
 </div>
+<h3>Feature extraction</h3>
 
 
