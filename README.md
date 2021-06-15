@@ -37,7 +37,7 @@ As the MIAS dataset presented many normal mammograms, we chose to balance the
 dataset by using all 322 images from MIAS and another 93 malignant and benign mammograms 
 from DDSM. Here are some of the plots we created in the incipient stage of our project in order to get a 
 better understanding of the dataset and of the problem:
-<img src="images/myplot1.png" alt="Resolution plot"/>
+<img src="images/myplot1.png" alt="Resolution plot" align="center"/>
 <img src="images/myplot2.png" alt="Diagnosis plot"/>
 <img src="images/myplot3.png" alt="Left and right diagnosis plot"/>
 
