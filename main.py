@@ -33,7 +33,7 @@ def make_tumor_mask_white(matrix):
                 break
 
 
-detect_tumors()
+#detect_tumors()
 # img1 = cv2.imread("first.jpg").flatten().tolist()
 # img2 = cv2.imread("input/ddsm/benign/0279/C_0279_1.RIGHT_MLO_Mask.jpg")
 # ret, thresh = cv2.threshold(img2, 15, 255, cv2.THRESH_BINARY)
