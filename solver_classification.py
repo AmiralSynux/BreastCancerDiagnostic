@@ -7,7 +7,6 @@ from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras.models import Sequential, load_model
 from tensorflow.python.keras.utils.np_utils import to_categorical
 from tensorflow.python.ops.init_ops import he_normal
-
 from extract_features import readData
 
 
@@ -19,22 +18,31 @@ def classifyMammograms():
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
     model = Sequential()
-    model.add(Dense(64, activation='relu', input_dim=len(X[0]), kernel_regularizer='l2', kernel_initializer=he_normal(seed=None)))
+    model.add(Dense(128, activation='relu', input_dim=len(X[0]), kernel_regularizer='l2', kernel_initializer=he_normal(seed=None)))
+    model.add(Dense(128))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(64))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(32))
+    model.add(Dense(16, activation='relu'))
+    model.add(Dense(16))
+    model.add(Dense(8, activation='relu'))
+    model.add(Dense(4))
     model.add(Dense(2, activation='sigmoid'))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     filepath = "model.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
-    earlystopping = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True)
+    earlystopping = EarlyStopping(monitor='loss', patience=20, restore_best_weights=True)
     desired_callbacks = [checkpoint, earlystopping]
-    history = model.fit(X_train, y_train, validation_split=0.2, batch_size=50, epochs=1000, shuffle=True,
-                        callbacks=desired_callbacks)
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig("loss.jpg")
+    # history = model.fit(X_train, y_train, validation_split=0.2, batch_size=50, epochs=1000, shuffle=True,
+    #                     callbacks=desired_callbacks)
+    # plt.plot(history.history['loss'])
+    # plt.plot(history.history['val_loss'])
+    # plt.title('model loss')
+    # plt.ylabel('loss')
+    # plt.xlabel('epoch')
+    # plt.legend(['train', 'test'], loc='upper left')
+    # plt.savefig("loss.jpg")
     model = load_model("model.hdf5")
 
     scores = model.evaluate(X_train, y_train, verbose=0)

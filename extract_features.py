@@ -54,7 +54,7 @@
 #     with open(filename, "r") as reader:
 #         lines = reader.readlines()
 #         lines.pop(0)
-#         truth = lines.pop()
+#         truth = lines.pop()[:-1]
 #         image = []
 #         for line in lines:
 #             line = line.strip(' \n')
@@ -66,35 +66,35 @@
 #                 row.append(elems)
 #             image.append(row)
 #         return image, truth
-#
-#
-# def readData():
-#     with open("all_features.csv", "r") as reader:
-#         data = []
-#         lines = reader.readlines()
-#         lines.pop(0)
-#         for line in lines:
-#             line = line.split(",")
-#             row = []
-#             for el in line:
-#                 row.append(float(el))
-#             data.append(row)
-#     with open("all_truths.csv", "r") as reader:
-#         truths = []
-#         lines = reader.readlines()
-#         for line in lines:
-#             line = line.strip(" \n")
-#             if line == "NORM":
-#                 truths.append(1)
-#             else:
-#                 truths.append(0)
-#     return data, truths
+
+
+def readData():
+    with open("all_features.csv", "r") as reader:
+        data = []
+        lines = reader.readlines()
+        lines.pop(0)
+        for line in lines:
+            line = line.split(",")
+            row = []
+            for el in line:
+                row.append(float(el))
+            data.append(row)
+    with open("all_truths.csv", "r") as reader:
+        truths = []
+        lines = reader.readlines()
+        for line in lines:
+            line = line.strip(" \n")
+            if line == "NORM":
+                truths.append(1)
+            else:
+                truths.append(0)
+    return data, truths
 #
 # features = []
 # truths = []
 # nr = 0
 #
-# for i in range(382, 415):
+# for i in range(415):
 #     file = "input/mammos/mammo" + str(i) + ".txt"
 #     print(nr)
 #     image, truth = readFile(file)
@@ -109,7 +109,7 @@
 #     nr += 1
 #
 # dataframe = pandas.DataFrame(features)
-# dataframe.to_csv('all_features2.csv', index=False)
+# dataframe.to_csv('all_features.csv', index=False)
 #
 # dataframe = pandas.DataFrame(truths)
-# dataframe.to_csv('all_truths2.csv', index=False)
+# dataframe.to_csv('all_truths.csv', index=False)

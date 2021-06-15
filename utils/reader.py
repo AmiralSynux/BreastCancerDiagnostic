@@ -1,6 +1,7 @@
 import threading
 from glob import glob
 import cv2
+import numpy
 from chronometer import Chronometer
 from analysis.dataset_analysis import read_mias
 from preprocessing.process import remove_labels
@@ -9,8 +10,8 @@ from utils.utils import read_pgm, get_processed_image, processDDSMMammogram
 
 
 def read_ddsm_data(imgs, resize=-1):
-    benign = glob('new/benign/**/*MLO.jpg', recursive=True)
-    malignant = glob('new/malignant/**/*MLO.jpg', recursive=True)
+    benign = glob('input/ddsm/benign/**/*MLO.jpg', recursive=True)
+    malignant = glob('input/ddsm/malignant/**/*MLO.jpg', recursive=True)
     for path in benign:
         imgs.append(ImageDTO(processDDSMMammogram(path, resize), "BENIGN"))
     print("---------###    BENIGN Finished    ###---------")
@@ -80,9 +81,9 @@ def write_data(images):
     #             writer.write("\n")
     #         writer.write(imageDTO.truth + "\n")
     #
-    k = 382
+    k = 322
     for imageDTO in images:
-        name = "mammo" + str(k)+".txt"
+        name = "mammo" + str(k) + ".txt"
         with open("input/mammos/" + name, "w") as writer:
             matrix = imageDTO.matrix
             writer.write(str(len(matrix)) + "," + str(len(matrix[0])) + "\n")
@@ -91,7 +92,7 @@ def write_data(images):
                     writer.write(str(matrix[i][j]) + ",")
                 writer.write("\n")
             writer.write(imageDTO.truth + "\n")
-        k +=1
+        k += 1
     print("-- Writing finished --")
 
 
@@ -116,7 +117,9 @@ def read_data_img(resize=-1):
 def read_threaded(imageDTOs, start, end):
     print("#Start - " + str(start) + " " + str(end))
     for i in range(start, end):
-        path = "input/mammos/mammo" + str(i)
+        if i < 322:
+            continue
+        path = "input/mammos/mammo" + str(i)+".txt"
         with open(path, "r") as reader:
             n = reader.readline()
             n = n.split(",")
@@ -128,19 +131,21 @@ def read_threaded(imageDTOs, start, end):
                 line = reader.readline()
                 line = line.split(",")
                 for j in range(m):
-                    matrix_line.append(int(line[j]))
+                    nr = int(line[j])
+                    matrix_line.append([nr, nr, nr])
                 matrix.append(matrix_line)
             truth = reader.readline()
             truth = truth[:-1]
+            matrix = numpy.array(matrix, dtype=numpy.uint8)
             imageDTOs.append(ImageDTO(matrix, truth))
     print("#END - " + str(start) + " " + str(end))
 
 
-def read_scattered_data(n=382, nr_t=-1):
-    if n > 382:
-        n = 382
+def read_scattered_data(n=415, nr_t=-1):
+    if n > 415:
+        n = 415
     if nr_t == -1:
-        nr_t = n // 15
+        nr_t = n // 40
     threads = []
     rez = []
     count = n // nr_t
@@ -166,9 +171,9 @@ def read_scattered_data(n=382, nr_t=-1):
 
 
 # returns the data out of truth.txt
-# the data caps out at 382
+# the data caps out at 415
 # if no n is given, it will read all data
-def read_data(n=382):
+def read_data(n=415):
     with Chronometer() as cr:
         k = 1
         imageDTOs = []
