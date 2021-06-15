@@ -113,6 +113,6 @@ and benign mammograms, and we compared them with their mask. As the mask was onl
 malformation we colored with white the inside of the contour.
 
 <h4>Normal mask</h4>
-<img src="images/C_0279_1.RIGHT_MLO_Mask.jpg" alt="Normal mask" style="width: 300px; height: 500px;"/>
+<img src="images/C_0279_1.RIGHT_MLO_Mask.jpg" alt="Normal mask" width="300px" height="500px"/>
 <h4>After colouring</h4>
-<img src="images/alb.jpg" alt="Coloured mask" style="width: 300px; height: 500px;"/>
+<img src="images/alb.jpg" alt="Coloured mask"/>
