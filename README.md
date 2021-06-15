@@ -37,7 +37,27 @@ As the MIAS dataset presented many normal mammograms, we chose to balance the
 dataset by using all 322 images from MIAS and another 93 malignant and benign mammograms 
 from DDSM. Here are some of the plots we created in the incipient stage of our project in order to get a 
 better understanding of the dataset and of the problem:
-<img src="images/myplot1.png" alt="Resolution plot" align="center"/>
+<img src="images/myplot1.png" alt="Resolution plot"/>
 <img src="images/myplot2.png" alt="Diagnosis plot"/>
 <img src="images/myplot3.png" alt="Left and right diagnosis plot"/>
+The ground truth of the MIAS dataset is represented by a .txt file where each image is described as 
+NORM, BENIGN or MALIGNANT, and in each case of malformation there is a center, and a radius that describe the
+ground truth. For DDSM the images are divided into two folders and each image has a mask that defines the contour 
+of the tumor, and an overlay that indicates which pixels form the border of the malformation.
+<h3>Preprocessing</h3>
+Our main purpose in this part of our project was to remove any labels and scanning artifacts by using a 
+thresholding algorithm. First, it takes a mammogram image and applies a thresholding to acquire a binary image,
+using the threshold value T=15. Then it divides the image vertically in half, as to attain two groups.
+Thereafter, it computes the pixel sum for both groups and compares these to check which one is greater in order 
+to decide the starting point of the pointer. After finding the starting point it traverses the pointer in every
+row and removes the unnecessary data in the image, i.e., labels and scanning artifacts.After removing the unnecessary data,
+it checks each pixel: if in the binary image a pixel is black it should also be black in the original mammogram image.
+<img src="images/org_img.png" alt="Original image"/>
+<h4>Original image</h4>
+<img src="images/binary_img.png" alt="Binary image"/>
+<h4>Binary image</h4>
+<img src="images/rem_bina.png" alt="Binary image after removing the unnecessary data"/>
+<h4>Binary image after removing the unnecessary data</h4>
+<img src="images/final_img.png" alt="Final mammogram"/>
+<h4>Final mammogram</h4>
 

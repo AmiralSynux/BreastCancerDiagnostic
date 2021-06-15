@@ -59,7 +59,7 @@ def processMiasMammogram(index):
     img = print_original_image(index)
     thresh = print_binary_image(index)
     processed_thresh = remove_labels(thresh)
-    # print_processed_image(processed_thresh, img)
+    print_processed_image(processed_thresh, img)
     return processed_thresh
 
 
