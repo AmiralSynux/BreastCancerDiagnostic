@@ -71,7 +71,13 @@ in the first layers as points, to more complex ones in the last layers like edge
 the average pooling layer, and one fully-connected layer that outputs a 4096-dimensional vector. After we extract each layer, 
 we create a new class called FeatureExtractor that inherits the nn.Module from PyTorch. 
 <h3>Training a binary classification model</h3>
-In order to train a model for our classification problem we used Keras. Our model has the following blueprint:
+
+In order to train a model for our classification problem we used Keras. We divided the dataset into two groups:
+normal mammograms and images with malformations (benign and malignant). Our purpose was to separate the healthy patients
+in order to help the specialists focus on the potentially ill people. Our model has eleven layers and in order to prevent 
+problems such as overfitting we used early stopping as a strategy.
+
+<br>Our model has the following blueprint:</br>
 <h4>Binary classification model</h4>
 <img src="images/model.png" alt="Binary classification model"/>
 In terms of performance our model has the following accuracy:
@@ -80,3 +86,21 @@ In terms of performance our model has the following accuracy:
 Moreover, this is a graphic that demonstrates the loss evolution during testing and training:
 <h4>Loss evolution</h4>
 <img src="images/loss.jpg" alt="Loss evolution"/>
+
+<h3>Image segmentation for tumor detection</h3>
+For image segmentation we used the K-Means Clustering method.
+K-means Clustering is a strong statistical method for grouping data points to their closest
+neighbor and thus developing clusters of data points. It starts by setting K centroid areas
+randomly or in the light of some heuristic. After all the pixels remain in a cluster membership, the image
+is segmented into these clusters. After that, a threshold is applied in order to accentuate the tumor
+(the brightest part of the mammogram). As the pectoral muscle is also a very bright part of the image
+we used an algorithm to clean the borders of the image.
+
+<h4>Original image</h4>
+<img src="images/C_0279_1.RIGHT_MLO.jpg" alt="Original image"/>
+<h4>Segmented image using k-means</h4>
+<img src="images/seg.jpg" alt="Segmented image"/>
+<h4>Binary image</h4>
+<img src="images/thresh.jpg" alt="Binary image"/>
+<h4>Cleared image</h4>
+<img src="images/cleared.jpg" alt="Cleared image"/>
