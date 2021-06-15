@@ -44,7 +44,7 @@ def classifyMammograms():
     # plt.legend(['train', 'test'], loc='upper left')
     # plt.savefig("loss.jpg")
     model = load_model("model.hdf5")
-
+    model.summary()
     scores = model.evaluate(X_train, y_train, verbose=0)
     print('Accuracy on training data: {}% \n Error on training data: {}'.format(scores[1], 1 - scores[1]))
 

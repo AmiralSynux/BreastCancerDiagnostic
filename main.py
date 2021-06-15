@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 
 from detect_cancer import get_image_after_segmentation
+from solver_classification import classifyMammograms
 from utils.reader import read_scattered_data
 
 np.set_printoptions(threshold=sys.maxsize)
@@ -14,7 +15,7 @@ np.set_printoptions(threshold=sys.maxsize)
 # resolution_graph()
 # read_data_img()
 
-# classifyMammograms()
+classifyMammograms()
 
 def detect_tumors():
     images = read_scattered_data()

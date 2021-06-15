@@ -63,5 +63,20 @@ it checks each pixel: if in the binary image a pixel is black it should also be 
 <img src="images/final_img.png" alt="Final mammogram"/>
 </div>
 <h3>Feature extraction</h3>
-
-
+For feature extraction we used an already pre-trained model from PyTorch based on the VGG-16 architecture. 
+This model was trained using ImageNet dataset. Normally, we can identify two main blocks inside of a typical CNN:
+the feature extraction part and the classification one. The feature extraction is made of a series of convolutional 
+and pooling layers which extract features from the image, increasing in complexity in each layer (i.e. from simpler features 
+in the first layers as points, to more complex ones in the last layers like edges and shapes). As we only want to extract features we took the feature layer,
+the average pooling layer, and one fully-connected layer that outputs a 4096-dimensional vector. After we extract each layer, 
+we create a new class called FeatureExtractor that inherits the nn.Module from PyTorch. 
+<h3>Training a binary classification model</h3>
+In order to train a model for our classification problem we used Keras. Our model has the following blueprint:
+<h4>Binary classification model</h4>
+<img src="images/model.png" alt="Binary classification model"/>
+In terms of performance our model has the following accuracy:
+<h4>Accuracy</h4>
+<img src="images/acc.png" alt="Accuracy"/>
+Moreover, this is a graphic that demonstrates the loss evolution during testing and training:
+<h4>Loss evolution</h4>
+<img src="images/loss.jpg" alt="Loss evolution"/>
